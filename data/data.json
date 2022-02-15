@@ -1,0 +1,43 @@
+{
+    "props": {
+        "styling": "wplay",
+        "openTermsInCustomLightbox": "false",
+		"promoCodeDisplay": "Basic",
+		"promoCodeSize": "5"
+    },
+    "meta": {
+        "styling": {
+            "description": "The theme supports several color schemes",
+            "type": "dropdown",
+            "defaultValue": "Winner",
+            "values": [
+                { "winner": "Winner" },
+                { "sunvegas": "SunVegas" },
+                { "wplay": "Wplay" }
+            ],
+            "label": "Select styling"
+        },
+        "openTermsInCustomLightbox": {
+            "description": "Hides close button from storeCardCredentials static page and applies popup styles to the scc terms window.",
+            "type": "checkbox",
+            "defaultValue": "false",
+            "label": "Open SCC terms in custom lightbox"
+        },
+		"promoCodeDisplay": {
+            "description": "Display promo code",
+            "type": "radio",
+            "defaultValue": "Advanced",
+			"values": [
+                { "basic": "Basic" },
+                { "advanced": "Advanced" }
+            ],
+            "label": "Display promo code"
+        },
+        "promoCodeSize": {
+            "description": "Defines the size of the promo code field",
+            "type": "text",
+            "defaultValue": "",
+            "label": "Promo code size"
+        }
+    }
+}
