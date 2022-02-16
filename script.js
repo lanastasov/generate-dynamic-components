@@ -72,38 +72,11 @@ function createRadioAndLabel(parsedJSON, radioType) {
 
   myLabelRad2.appendChild(radiobox2);
 
-  // myLabelRad.for = radioType;
-  //   <label for="html">HTML</label><br>
-
-  // radiobox.value = "HTML";
-  // radiobox.value = "HTML2";
-  // dropdown
-  // var values = [];
-  // for (const v of parsedJSON.meta[radioType].values) {
-  //   values.push(Object.keys(v)[0]);
-  // }
-
-  // for (const [i, val] of values.entries()) {
-  //   var option = document.createElement("option");
-  //   option.value = val;
-  //   option.text = parsedJSON.meta[radioType].values[i][val];
-  //   if (option.text == parsedJSON.meta[radioType].defaultValue) {
-  //     option.selected = "selected";
-  //   }
-  //   radiobox.appendChild(option);
-  // }
-
   document
     .getElementById("result")
     .appendChild(myLabel)
     .appendChild(myLabelRad)
-    // .appendChild(radiobox)
     .appendChild(myLabelRad2);
-  // .appendChild(radiobox2);
-  // document
-  //   .getElementById("result")
-  //   .appendChild(myLabelRad2)
-  //   .appendChild(radiobox2);
 }
 
 function createInputAndLabel(parsedJSON, textType) {
