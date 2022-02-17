@@ -21,62 +21,35 @@ document.getElementById("inputfile").addEventListener("change", function () {
 });
 
 function createRadioAndLabel(parsedJSON, radioType) {
-  // label
-  var myLabel = document.createElement("label");
-  myLabel.innerHTML = parsedJSON.meta[radioType].label;
-  myLabel.htmlFor = radioType;
-  // var newline = document.createElement("br");
+  // wrap Label
+  var wrapLabel = document.createElement("label");
+  wrapLabel.innerHTML = parsedJSON.meta[radioType].label;
+  wrapLabel.htmlFor = radioType;
+  wrapLabel.id = "wrapLabel";
+  document.getElementById("result").appendChild(wrapLabel);
 
-  var radiobox = document.createElement("input");
-  radiobox.type = "radio";
-  radiobox.id = radioType;
-  radiobox.value = parsedJSON.meta[radioType].defaultValue;
-  radiobox.name = radioType;
-
-  console.log("11.", parsedJSON.meta[radioType].values);
+  // radio
   var values = [];
   for (const v of parsedJSON.meta[radioType].values) {
     values.push(Object.keys(v)[0]);
   }
 
   for (const [i, val] of values.entries()) {
-    var radiobox0 = document.createElement("input");
-    radiobox0.type = "radio";
-    radiobox0.id = val;
-    radiobox0.name = radioType;
-    radiobox0.value = parsedJSON.meta[radioType].values[i][val];
-    // if (option.text == parsedJSON.meta[radioType].defaultValue) {
-    //   option.selected = "selected";
-    // }
-    "generate label".appendChild(radiobox0);
+    var radiobox = document.createElement("input");
+    radiobox.type = "radio";
+    radiobox.id = val;
+    radiobox.name = radioType;
+    if (
+      parsedJSON.meta[radioType].defaultValue ===
+      parsedJSON.meta[radioType].values[i][val]
+    ) {
+      radiobox.checked = "checked";
+    }
+    radiobox.value = parsedJSON.meta[radioType].values[i][val];
+    var myInnerLabel = createInnerLabel(parsedJSON, radioType, i, val);
+    myInnerLabel.appendChild(radiobox);
+    document.getElementById("wrapLabel").appendChild(myInnerLabel);
   }
-
-  console.log("12.", values);
-
-  var radiobox2 = document.createElement("input");
-  radiobox2.type = "radio";
-  radiobox2.id = "id2";
-  radiobox2.value = "Levski"; // parsedJSON.meta[radioType].values;
-  radiobox2.name = radioType;
-  // radiobox.value = "HTML";
-
-  var myLabelRad = document.createElement("label");
-  myLabelRad.innerHTML = radiobox.value; // parsedJSON.meta[radioType].label;
-  myLabelRad.htmlFor = radioType;
-
-  var myLabelRad2 = document.createElement("label");
-  myLabelRad2.innerHTML = "test"; // parsedJSON.meta[radioType].label;
-  myLabelRad2.htmlFor = radioType;
-
-  myLabelRad.appendChild(radiobox);
-
-  myLabelRad2.appendChild(radiobox2);
-
-  document
-    .getElementById("result")
-    .appendChild(myLabel)
-    .appendChild(myLabelRad)
-    .appendChild(myLabelRad2);
 }
 
 function createInputAndLabel(parsedJSON, textType) {
@@ -134,5 +107,12 @@ function createLabel(parsedJSON, elementType) {
   var myLabel = document.createElement("label");
   myLabel.innerHTML = parsedJSON.meta[elementType].label;
   myLabel.htmlFor = elementType;
+  return myLabel;
+}
+
+function createInnerLabel(parsedJSON, elementType, idx, val) {
+  var myLabel = document.createElement("label");
+  myLabel.innerHTML = parsedJSON.meta[elementType].values[idx][val];
+  myLabel.htmlFor = val;
   return myLabel;
 }
