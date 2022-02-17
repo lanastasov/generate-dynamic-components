@@ -81,9 +81,7 @@ function createRadioAndLabel(parsedJSON, radioType) {
 
 function createInputAndLabel(parsedJSON, textType) {
   // label
-  var myLabel = document.createElement("label");
-  myLabel.innerHTML = parsedJSON.meta[textType].label;
-  myLabel.htmlFor = textType;
+  var myLabel = createLabel(parsedJSON, textType);
 
   // text input
   var textInput = document.createElement("input");
@@ -95,6 +93,9 @@ function createInputAndLabel(parsedJSON, textType) {
 }
 
 function createCheckboxAndLabel(parsedJSON, checkboxType) {
+  // label
+  var myLabel = createLabel(parsedJSON, checkboxType);
+
   // checkbox
   var checkbox = document.createElement("input");
   checkbox.type = "checkbox";
@@ -102,19 +103,12 @@ function createCheckboxAndLabel(parsedJSON, checkboxType) {
   // checkbox.name = "name";
   checkbox.value = parsedJSON.meta[checkboxType].defaultValue;
 
-  // label
-  var myLabel = document.createElement("label");
-  myLabel.innerHTML = parsedJSON.meta[checkboxType].label;
-  myLabel.htmlFor = checkboxType;
-  // myLabel.appendChild();
   document.getElementById("result").appendChild(myLabel).appendChild(checkbox);
 }
 
 function createDropdownAndLabel(parsedJSON, dropdownType) {
   // label
-  var myLabel = document.createElement("label");
-  myLabel.innerHTML = parsedJSON.meta[dropdownType].label;
-  myLabel.htmlFor = dropdownType;
+  var myLabel = createLabel(parsedJSON, dropdownType);
 
   // dropdown
   var values = [];
@@ -134,4 +128,11 @@ function createDropdownAndLabel(parsedJSON, dropdownType) {
     select.appendChild(option);
   }
   document.getElementById("result").appendChild(myLabel).appendChild(select);
+}
+
+function createLabel(parsedJSON, elementType) {
+  var myLabel = document.createElement("label");
+  myLabel.innerHTML = parsedJSON.meta[elementType].label;
+  myLabel.htmlFor = elementType;
+  return myLabel;
 }
