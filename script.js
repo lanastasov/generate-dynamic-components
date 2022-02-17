@@ -5,7 +5,6 @@ document.getElementById("inputfile").addEventListener("change", function () {
     parsedJSON = JSON.parse(fileReader.result);
     // your code to consume the json
     generateComponents(parsedJSON);
-    returnJSON(parsedJSON);
   };
   fileReader.readAsText(this.files[0]);
 });
@@ -121,14 +120,6 @@ function createInnerLabel(parsedJSON, elementType, idx, val) {
   myLabel.htmlFor = val;
   return myLabel;
 }
-
-pJSON = {};
-function returnJSON(parsedJSON) {
-  pJSON = parsedJSON;
-  console.log("16.", pJSON);
-  return pJSON;
-}
-console.log("17.", pJSON);
 
 function setDefaults() {
   document.getElementById("result").remove();
