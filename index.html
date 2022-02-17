@@ -5,37 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assessment Task</title>
-    <style>
-        form {
-            padding-top:10px;
-            border: 3px solid papayawhip;
-            width: 800px;
-            margin-bottom: 20px;
-            height: 80vh;
-        }
-        .container {
-            max-width: 1920px;
-            margin: 0 auto;
-        }
-        label {
-            padding: 8px;
-            background-color:#e7e7e7;
-            color: #b22828;
-            margin-bottom: 12px;
-            display: block;
-            font-size:20px;
-        }
-        select, input {
-            margin-left: 15px;
-        }
-        input[type="text"] {
-            width: 120px;
-        }
-        input[type="radio"] {
-            width: 20px;
-        }
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" type="text/css" href="css/pretty-json.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
 
-    </style>
+    <!-- lib -->
+    <script type="text/javascript" src="lib/jquery-1.11.1.min.js" ></script>
+    <script type="text/javascript" src="lib/underscore-min.js" ></script>
+    <script type="text/javascript" src="lib/backbone-min.js" ></script>
+
+    <!-- pretty JSON v 0.1  -->
+    <script type="text/javascript" src="lib/pretty-json-min.js" ></script>
 </head>
 <body>
     <div class="container">
@@ -47,20 +27,20 @@
                 <pre id="output"></pre>
             </h2>
         </div>
+        <div id="container">
+            <form id="result">
+    
+            </form>
+        </div>
+        <button value="Set Defaults" onclick="setDefaults()">Set Defaults</button>
+        <button value="Rest">Reset</button>
+        <button id="save" value="Save">Save</button>
+       
+        <span id="saveJSON">
 
-        <form id="result">
-
-        </form>
-
-        <!-- <form>
-            <label for="styling">Select styling</label>
-            <select id="styling">
-                <option value="winner" selected="selected">Winner</option>
-                <option value="sunvegas" >SunVegas</option>
-                <option value="wplay">Wplay</option>
-            </select>
-        </form> -->
+        </span>
     </div>
+    
     <script type="application/javascript" src="script.js"></script>
 </body>
 </html>

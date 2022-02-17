@@ -1,24 +1,29 @@
+var parsedJSON;
 document.getElementById("inputfile").addEventListener("change", function () {
   let fileReader = new FileReader();
   fileReader.onload = function () {
-    let parsedJSON = JSON.parse(fileReader.result);
+    parsedJSON = JSON.parse(fileReader.result);
     // your code to consume the json
-
-    for (const v of Object.keys(parsedJSON.props)) {
-      let type = parsedJSON.meta[v].type;
-      if (type === "dropdown") {
-        createDropdownAndLabel(parsedJSON, v);
-      } else if (type === "checkbox") {
-        createCheckboxAndLabel(parsedJSON, v);
-      } else if (type === "text") {
-        createInputAndLabel(parsedJSON, v);
-      } else if (type === "radio") {
-        createRadioAndLabel(parsedJSON, v);
-      }
-    }
+    generateComponents(parsedJSON);
+    returnJSON(parsedJSON);
   };
   fileReader.readAsText(this.files[0]);
 });
+
+function generateComponents(parsedJSON) {
+  for (const v of Object.keys(parsedJSON.props)) {
+    let type = parsedJSON.meta[v].type;
+    if (type === "dropdown") {
+      createDropdownAndLabel(parsedJSON, v);
+    } else if (type === "checkbox") {
+      createCheckboxAndLabel(parsedJSON, v);
+    } else if (type === "text") {
+      createInputAndLabel(parsedJSON, v);
+    } else if (type === "radio") {
+      createRadioAndLabel(parsedJSON, v);
+    }
+  }
+}
 
 function createRadioAndLabel(parsedJSON, radioType) {
   // wrap Label
@@ -116,3 +121,34 @@ function createInnerLabel(parsedJSON, elementType, idx, val) {
   myLabel.htmlFor = val;
   return myLabel;
 }
+
+pJSON = {};
+function returnJSON(parsedJSON) {
+  pJSON = parsedJSON;
+  console.log("16.", pJSON);
+  return pJSON;
+}
+console.log("17.", pJSON);
+
+function setDefaults() {
+  document.getElementById("result").remove();
+  var form = document.createElement("form");
+  form.id = "result";
+
+  document.getElementById("container").appendChild(form);
+  generateComponents(parsedJSON);
+}
+
+$(document).ready(function () {
+  var el = {
+    btnSave: $("#save"),
+    result: $("#saveJSON"),
+  };
+
+  el.btnSave.on("click", function () {
+    var node = new PrettyJSON.view.Node({
+      el: el.result,
+      data: parsedJSON,
+    });
+  });
+});

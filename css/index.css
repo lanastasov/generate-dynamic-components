@@ -1,0 +1,33 @@
+form {
+  padding-top: 10px;
+  border: 3px solid papayawhip;
+  width: 800px;
+  margin-bottom: 20px;
+  height: 80vh;
+}
+.container {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+label {
+  padding: 8px;
+  background-color: #e7e7e7;
+  color: #b22828;
+  margin-bottom: 12px;
+  display: block;
+  font-size: 20px;
+}
+select,
+input {
+  margin-left: 15px;
+}
+input[type="text"] {
+  width: 120px;
+}
+input[type="radio"] {
+  width: 20px;
+}
+#saveJSON {
+  display: block;
+  margin-top: 15px;
+}
