@@ -1,15 +1,32 @@
 var parsedJSON;
+var propsJSON;
 document.getElementById("inputfile").addEventListener("change", function () {
   let fileReader = new FileReader();
   fileReader.onload = function () {
     parsedJSON = JSON.parse(fileReader.result);
+    // propsJSON = JSON.parse(JSON.stringify(parsedJSON));
     // your code to consume the json
-    generateComponents(parsedJSON);
+    generateComponents();
   };
   fileReader.readAsText(this.files[0]);
 });
 
-function generateComponents(parsedJSON) {
+function updatePropsComponents() {
+  for (const v of Object.keys(parsedJSON.props)) {
+    let type = parsedJSON.meta[v].type;
+    if (type === "dropdown") {
+      updatePropsDropdown(v);
+    } else if (type === "checkbox") {
+      updatePropsCheckbox(v);
+    } else if (type === "text") {
+      updatePropsTextInput(v); // createTextInputAndLabel(parsedJSON, v);
+    } else if (type === "radio") {
+      updatePropsRadio(v); // createRadioAndLabel(parsedJSON, v);
+    }
+  }
+}
+
+function generateComponents() {
   for (const v of Object.keys(parsedJSON.props)) {
     let type = parsedJSON.meta[v].type;
     if (type === "dropdown") {
@@ -139,7 +156,9 @@ function setDefaults() {
   form.id = "result";
 
   document.getElementById("container").appendChild(form);
-  generateComponents(parsedJSON);
+  // parsedJSON = JSON.parse(JSON.stringify(propsJSON));
+  generateComponents();
+  updatePropsComponents();
 }
 
 $(document).ready(function () {
