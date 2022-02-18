@@ -1,30 +1,16 @@
 var parsedJSON;
-var propsJSON;
+var saveJSON;
+var setDefaultJSON;
 document.getElementById("inputfile").addEventListener("change", function () {
   let fileReader = new FileReader();
   fileReader.onload = function () {
     parsedJSON = JSON.parse(fileReader.result);
-    // propsJSON = JSON.parse(JSON.stringify(parsedJSON));
+    setDefaultJSON = JSON.parse(JSON.stringify(parsedJSON));
     // your code to consume the json
     generateComponents();
   };
   fileReader.readAsText(this.files[0]);
 });
-
-function updatePropsComponents() {
-  for (const v of Object.keys(parsedJSON.props)) {
-    let type = parsedJSON.meta[v].type;
-    if (type === "dropdown") {
-      updatePropsDropdown(v);
-    } else if (type === "checkbox") {
-      updatePropsCheckbox(v);
-    } else if (type === "text") {
-      updatePropsTextInput(v); // createTextInputAndLabel(parsedJSON, v);
-    } else if (type === "radio") {
-      updatePropsRadio(v); // createRadioAndLabel(parsedJSON, v);
-    }
-  }
-}
 
 function generateComponents() {
   for (const v of Object.keys(parsedJSON.props)) {
@@ -37,6 +23,21 @@ function generateComponents() {
       createTextInputAndLabel(parsedJSON, v);
     } else if (type === "radio") {
       createRadioAndLabel(parsedJSON, v);
+    }
+  }
+}
+
+function updatePropsComponents() {
+  for (const v of Object.keys(parsedJSON.props)) {
+    let type = parsedJSON.meta[v].type;
+    if (type === "dropdown") {
+      updatePropsDropdown(v);
+    } else if (type === "checkbox") {
+      updatePropsCheckbox(v);
+    } else if (type === "text") {
+      updatePropsTextInput(v);
+    } else if (type === "radio") {
+      updatePropsRadio(v);
     }
   }
 }
@@ -105,7 +106,11 @@ function createCheckboxAndLabel(parsedJSON, checkboxType) {
   };
   // checkbox.name = "name";
   checkbox.value = parsedJSON.meta[checkboxType].defaultValue;
-
+  if (checkbox.value === "true") {
+    checkbox.checked = true;
+  } else {
+    checkbox.checked = false;
+  }
   document.getElementById("result").appendChild(myLabel).appendChild(checkbox);
 }
 
@@ -156,9 +161,28 @@ function setDefaults() {
   form.id = "result";
 
   document.getElementById("container").appendChild(form);
-  // parsedJSON = JSON.parse(JSON.stringify(propsJSON));
   generateComponents();
   updatePropsComponents();
+  saveJSON = JSON.parse(JSON.stringify(parsedJSON));
+  parsedJSON = JSON.parse(JSON.stringify(setDefaultJSON));
+}
+
+// reset button
+function resetButton() {
+  document.getElementById("result").remove();
+  var form = document.createElement("form");
+  form.id = "result";
+
+  document.getElementById("container").appendChild(form);
+
+  for (const v of Object.keys(parsedJSON.props)) {
+    parsedJSON.meta[v].defaultValue = parsedJSON.props[v];
+  }
+
+  generateComponents();
+  updatePropsComponents();
+  saveJSON = JSON.parse(JSON.stringify(parsedJSON));
+  parsedJSON = JSON.parse(JSON.stringify(setDefaultJSON));
 }
 
 $(document).ready(function () {
@@ -170,7 +194,7 @@ $(document).ready(function () {
   el.btnSave.on("click", function () {
     var node = new PrettyJSON.view.Node({
       el: el.result,
-      data: parsedJSON,
+      data: saveJSON,
     });
   });
 });
