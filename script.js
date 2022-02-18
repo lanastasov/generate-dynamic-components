@@ -17,7 +17,7 @@ function generateComponents(parsedJSON) {
     } else if (type === "checkbox") {
       createCheckboxAndLabel(parsedJSON, v);
     } else if (type === "text") {
-      createInputAndLabel(parsedJSON, v);
+      createTextInputAndLabel(parsedJSON, v);
     } else if (type === "radio") {
       createRadioAndLabel(parsedJSON, v);
     }
@@ -50,13 +50,16 @@ function createRadioAndLabel(parsedJSON, radioType) {
       radiobox.checked = "checked";
     }
     radiobox.value = parsedJSON.meta[radioType].values[i][val];
+    radiobox.onchange = function () {
+      updatePropsRadio(radioType);
+    };
     var myInnerLabel = createInnerLabel(parsedJSON, radioType, i, val);
     myInnerLabel.appendChild(radiobox);
     document.getElementById("wrapLabel").appendChild(myInnerLabel);
   }
 }
 
-function createInputAndLabel(parsedJSON, textType) {
+function createTextInputAndLabel(parsedJSON, textType) {
   // label
   var myLabel = createLabel(parsedJSON, textType);
 
@@ -65,6 +68,9 @@ function createInputAndLabel(parsedJSON, textType) {
   textInput.type = "text";
   textInput.id = textType;
   textInput.value = parsedJSON.meta[textType].defaultValue;
+  textInput.oninput = function () {
+    updatePropsTextInput(textType);
+  };
 
   document.getElementById("result").appendChild(myLabel).appendChild(textInput);
 }
@@ -77,6 +83,9 @@ function createCheckboxAndLabel(parsedJSON, checkboxType) {
   var checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = checkboxType;
+  checkbox.onclick = function () {
+    updatePropsCheckbox(checkboxType);
+  };
   // checkbox.name = "name";
   checkbox.value = parsedJSON.meta[checkboxType].defaultValue;
 
@@ -94,6 +103,9 @@ function createDropdownAndLabel(parsedJSON, dropdownType) {
   }
   var select = document.createElement("select");
   select.id = dropdownType;
+  select.onchange = function () {
+    updatePropsDropdown(dropdownType);
+  };
 
   for (const [i, val] of values.entries()) {
     var option = document.createElement("option");
@@ -143,3 +155,24 @@ $(document).ready(function () {
     });
   });
 });
+
+function updatePropsDropdown(dropdownType) {
+  var select = document.getElementById(dropdownType);
+  var selectedDropdownValue = select.options[select.selectedIndex].value;
+  parsedJSON.props[dropdownType] = selectedDropdownValue;
+}
+
+function updatePropsCheckbox(checkboxType) {
+  var selectedCheckbox = document.getElementById(checkboxType).checked;
+  parsedJSON.props[checkboxType] = selectedCheckbox;
+}
+
+function updatePropsTextInput(textType) {
+  var selectedInput = document.getElementById(textType).value;
+  parsedJSON.props[textType] = selectedInput;
+}
+
+function updatePropsRadio(radioType) {
+  var selectedOption = document.getElementById("result")[radioType].value;
+  parsedJSON.props[radioType] = selectedOption;
+}
